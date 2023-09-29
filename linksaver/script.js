@@ -39,12 +39,12 @@ deleteBtn.addEventListener(
   })
 );
 
-tabBtn.addEventListener("click", (saveTab = () => {
+tabBtn.addEventListener("click", function(){    
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-    let activeTab = tabs[0];
-    let activeTabId = activeTab.id;
-  })
-  savedLinks.push(tabs[0].url);
-  localStorage.setItem("Links", JSON.stringify(savedLinks));
-  renderLeads(savedLinks);
-}));
+    if(!savedLinks.includes(tabs[0].url)){
+      savedLinks.push(tabs[0].url);
+      localStorage.setItem("Links", JSON.stringify(savedLinks) );
+      renderLeads(savedLinks);
+    }
+  });
+});
