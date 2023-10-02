@@ -1,7 +1,6 @@
 html, body {
     margin: 0;
     padding: 0;
-    font-family: 'Rubik', sans-serif;
     background-color: #fffcf2;
     color: #432000;
     user-select: none;
@@ -30,10 +29,9 @@ input {
     border-radius: 8px;
     font-size: 20px;
     text-align: center;
-    font-family: 'Rubik', sans-serif;
     margin: 10px 0;
 }
-button {
+#add-button {
     color: #FDFDFD;
     background-color: #AC485A;
     border: 0;
@@ -41,10 +39,19 @@ button {
     border-radius: 8px;
     font-size: 20px;
     text-align: center;
-    font-family: 'Rubik', sans-serif;
 }
-button:hover{
+#add-button:hover, #remLocal-button:hover{
     background-color: #432000;
+}
+#remLocal-button{
+    position: absolute;
+    width:min-content;
+    color: #FDFDFD;
+    background-color: #AC485A;
+    border: 0;
+    padding: 5px 10px;
+    border-radius: 8px;
+    margin-top: -5px;
 }
 li:hover{
     background-color: #FFECC7;

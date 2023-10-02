@@ -9,28 +9,32 @@ const app = initializeApp(appSettings);
 const database = getDatabase(app);
 
 let householdName = "";
-
+console.log(localStorage.getItem("houseHoldName"));
 function startStorage() {
     if (!localStorage.getItem('firsttime') && !localStorage.getItem("houseHoldName")) {
         localStorage.setItem('firsttime', true);
-    } 
+    }
 }
 startStorage();
 
 let firstTime = localStorage.getItem('firsttime');
-if(firstTime && !localStorage.getItem("houseHoldName")) {
+if (firstTime && !localStorage.getItem("houseHoldName")) {
     localStorage.setItem("firsttime", false);
-    householdName = window.prompt("What's the household tag?");
+    do{
+        householdName = window.prompt("What's the household tag?");
+    }while(householdName == null || householdName == "" );
+    householdName = householdName.toLocaleLowerCase();
     localStorage.setItem("houseHoldName", householdName);
-}else{
+} else {
     householdName = localStorage.getItem("houseHoldName");
+    householdName = householdName.toLocaleLowerCase();
 }
-const shoppingListInDB = ref(database, `${householdName}/shoppingList`)
+const shoppingListInDB = ref(database, `${householdName}/shoppingList`);
 
-const inputFieldEl = document.getElementById("input-field")
-const addButtonEl = document.getElementById("add-button")
+const inputFieldEl = document.getElementById("input-field");
+const addButtonEl = document.getElementById("add-button");
 const list = document.getElementById("list-items");
-
+const remLocal = document.getElementById("remLocal-button");
 
 onValue(shoppingListInDB, function (snapshot) {
     if (snapshot.exists()) {
@@ -47,16 +51,23 @@ onValue(shoppingListInDB, function (snapshot) {
 })
 
 addButtonEl.addEventListener("click", function () {
-    let inputValue = inputFieldEl.value
+    let inputValue = inputFieldEl.value;
     if (inputValue !== "") {
         let inputValue2 = capitalizeFirstLetter(inputValue);
 
-        push(shoppingListInDB, inputValue2)
+        push(shoppingListInDB, inputValue2);
         clearInput();
     } else {
         alert("You have to have an input!");
     }
 })
+
+remLocal.addEventListener("click", function () {
+    localStorage.removeItem("houseHoldName");
+    localStorage.setItem("firsttime", true);
+    location.reload();
+});
+
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -75,4 +86,3 @@ const createItem = (item) => {
     })
     list.appendChild(listItem);
 }
-
